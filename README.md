@@ -13,6 +13,9 @@ The app is live at: [Scheduler App on Render](https://calendar-module.onrender.c
 - Monthly calendar view for comprehensive date management
 - Efficient appointment scheduling with minimal complexity
 
+![image](https://github.com/user-attachments/assets/b1e25cf8-e5b8-4105-af34-4b41176b5a76)
+
+
 ## Getting Started
 
 Follow the steps below to set up and run the project on your local machine.
