@@ -1,27 +1,40 @@
-# Calendar
+# Scheduler App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.11.
+This project is a web-based scheduling application that enables users to view available time slots, book events, set reminders, and manage tasks through an interactive calendar interface. The app is designed to provide a seamless, user-friendly experience to simplify scheduling and boost productivity.
 
-## Development serverW
+The app is live at: [Scheduler App on Render](https://calendar-module.onrender.com/)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Features
 
-## Code scaffolding
+- Book events, set reminders, and manage tasks
+- User-friendly calendar interface for easy navigation
+- Click and drag to select multiple dates
+- View available days and schedules at a glance
+- Monthly calendar view for comprehensive date management
+- Efficient appointment scheduling with minimal complexity
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Getting Started
 
-## Build
+Follow the steps below to set up and run the project on your local machine.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Prerequisites
 
-## Running unit tests
+Ensure you have [Node.js](https://nodejs.org/) installed before proceeding.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Installation
 
-## Running end-to-end tests
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/sunilswizy/Calendar-Module.git
+   cd Calendar-Module
+    ```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+2. Install the dependencies:
+    ```bash
+    npm install
+    ```
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+3. Start the development server:
+    ```bash
+    npm start
+    ```
