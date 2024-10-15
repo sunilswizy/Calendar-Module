@@ -15,6 +15,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ColorPickerModule } from 'primeng/colorpicker';
+import { AutoFocusModule } from 'primeng/autofocus';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { ColorPickerModule } from 'primeng/colorpicker';
     BrowserAnimationsModule,
     InputTextModule,
     ToastModule,
-    ColorPickerModule
+    ColorPickerModule,
+    AutoFocusModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

@@ -119,16 +119,17 @@
 .calender-container {
   width: 100%;
   display: grid;
-  height: calc(100% - 55px - 20px);
+  height: calc(100% - 60px - 20px);
   grid-template-rows: repeat(5, 1fr);
 }
 
 .calendar-planner-top-bar {
   width: 100%;
-  height: 40px;
+  height: 45px;
   margin-bottom: 15px;
   display: flex;
   justify-content: space-between;
+  gap: 10px;
 }
 
 .date-options {
@@ -346,6 +347,10 @@
   width: 250px;
 }
 
+::ng-deep .filter-options .p-dropdown {
+  width: 170px;
+}
+
 ::ng-deep .overlay-panel-form .p-inputtext {
   width: 250px;
 }
@@ -510,4 +515,104 @@
 
 ::ng-deep .overlay-panel-footer .p-button {
   padding: 8px 30px;
+}
+
+.flex {
+  display: flex;
+}
+
+@media (max-width: 768px) {
+  .calendar-planner-container {
+    padding: 15px 5px 10px;
+  }
+
+  .week-container {
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .each-event {
+    font-size: 10px;
+  }
+
+  .each-day {
+    font-size: 12px;
+  }
+
+  .calendar-title {
+    font-size: 18px;
+  }
+
+  .date-options {
+    font-size: 18px;
+  }
+
+  .month-name {
+    font-size: 18px;
+  }
+
+  .week-day-name {
+    font-size: 10px;
+  }
+
+  .calendar-planner-top-bar {
+    height: 40px;
+  }
+
+  .today-btn {
+    padding: 8px 10px;
+  }
+  
+  ::ng-deep .filter-options .p-dropdown {
+    width: 150px;
+  }
+}
+
+@media (max-width: 576px) {
+  .calendar-planner-container {
+    padding: 15px 5px 10px;
+  }
+
+  .week-container {
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .each-event {
+    font-size: 10px;
+  }
+
+  .each-day {
+    font-size: 12px;
+  }
+
+  .calendar-title {
+    font-size: 18px;
+  }
+
+  .date-options {
+    font-size: 18px;
+  }
+
+  .month-name {
+    font-size: 18px;
+  }
+
+  .week-day-name {
+    font-size: 10px;
+  }
+
+  .calendar-planner-top-bar {
+    height: 40px;
+  }
+
+  .today-btn {
+    padding: 8px 10px;
+  }
+
+  .arrows {
+    font-size: 20px;
+  }
+
+  .event-views-container {
+    grid-template-rows: 20px;
+  }
 }

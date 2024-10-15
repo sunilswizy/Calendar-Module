@@ -62,6 +62,13 @@ export class CalendarComponent {
   formType: 'Add' | 'Edit' = 'Add';
   selectedAllEvents: IEventData[] = [];
   selectedDate = new Date();
+  filterOptions = [
+    { label: 'All', value: 'All' },
+    { label: 'Task', value: 'Task' },
+    { label: 'Meeting', value: 'Meeting' },
+    { label: 'Reminder', value: 'Reminder' }
+  ]
+  selectedFilter = 'All';
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -155,6 +162,10 @@ export class CalendarComponent {
 
   getEvents() {
     this.eventMappedToIdx = this.commonService.getEvents().reduce((acc: any, event: IEventData) => {
+      if (event.event_type !== this.selectedFilter && this.selectedFilter !== 'All') {
+        return acc;
+      }
+
       const { start_date, end_date } = event;
       const startDate = new Date(start_date);
       const endDate = new Date(end_date);
@@ -218,6 +229,10 @@ export class CalendarComponent {
 
     this.generateCalender();
   };
+
+  filterOnChange() {
+    this.getEvents();
+  }
 
   handleClickDay(event: MouseEvent, day: IEachDay) {
     if (this.op && event) {

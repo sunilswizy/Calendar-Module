@@ -9,6 +9,10 @@
             </div>
             <span class="month-name">{{ this.monthMapping[currentMonth][1] }} {{ currentYear }}</span>
         </div>
+        <div class="filter-options">
+            <p-dropdown class="dropdown-events" inputId="dropdown-dropdown" optionLabel="label" optionValue="value" (onChange)="filterOnChange()"
+                placeholder="Select Event Type" [options]="filterOptions" [autoDisplayFirst]="true" [(ngModel)]="selectedFilter" />
+        </div>
     </div>
 
     <div class="week-day-name-container">
@@ -79,7 +83,7 @@
                         </span>
                         
                         <span>
-                            <input type="text" pInputText formControlName="event_name" placeholder="Type Event Name"/>
+                            <input type="text" pInputText pAutoFocus [autofocus]="true" formControlName="event_name" placeholder="Type Event Name"/>
                         </span>
                     </div>
                     <div class="dropdown-containers">
