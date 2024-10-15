@@ -1,1 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
+:root {
+    --fs-small: .625rem; /* 10px */
+    --fs-medium: .75rem; /* 12px */
+    --fs-large: .875rem; /* 14px */
+    --fs-heading1: 1rem; /* 16px */
+    --fs-heading2: 1.125rem; /* 18px */
+    --fs-heading3: 1.25rem; /* 20px */
+    --fs-heading4: 1.5rem; /* 24px */
+
+    --clr-primary-accent: #D2DFFF;
+    --clr-primary-accent1: #F3F7FF;
+}
+
+
+.p-overlaypanel::before,
+.p-overlaypanel::after {
+    content: unset !important;
+}
+
+.p-overlaypanel .p-overlaypanel-content {
+    padding: 5px !important;
+}

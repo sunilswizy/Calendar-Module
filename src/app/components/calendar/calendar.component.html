@@ -1,0 +1,147 @@
+<div class="calendar-planner-container">
+    <div class="calendar-planner-top-bar">
+        <div class="date-options">
+            <h2 class="calendar-title">Sunil's Calendar</h2>
+            <button class="today-btn" (click)="moveToToday()">Today</button>
+            <div class="flex">
+                <span class="pi pi-angle-left arrows" (click)="prevMonth()"></span>
+                <span class="pi pi-angle-right arrows" (click)="nextMonth()"></span>
+            </div>
+            <span class="month-name">{{ this.monthMapping[currentMonth][1] }} {{ currentYear }}</span>
+        </div>
+    </div>
+
+    <div class="week-day-name-container">
+        <div class="week-day-name border-top border-right" *ngFor="let day of days; let idx = index" [ngClass]="{ 'border-left': idx == 0, 'overlay-opened': selectedDays.has(idx)}">
+            <span class="each-week-day-name"> {{ day }} </span>
+        </div>
+    </div>
+    <div class="calender-container" (mouseleave)="handleMouseUp()">
+        <div *ngFor="let week of calenderData; let weekIdx = index" class="week-container">
+            <div 
+            (mousedown)="handleMouseDown(day, $event)"
+            (mouseenter)="handleMouseEnter(day.value)" *ngFor="let day of week; let dayIdx = index" class="day-container border-right border-bottom" #targetEL [ngClass]="{ 'border-left': dayIdx == 0, 'overlay-opened': selectedDays.has(day.value) }">
+                <span class="each-day" [ngClass]="{ 'isCurrentDay': day.isToday, 'current-month': day.currentMonth === currentMonth, 'fade-in-move-left': isNextClicked, 'fade-in-move-right': !isNextClicked }"> {{ day.label }} </span>
+                <div class="event-views-container" [ngStyle]="{'height': (this.eventMappedToIdx[day.value] || []).length >= 3 ? '100%' :'auto'}">
+                    <div class="event-container" *ngFor="let event of (this.eventMappedToIdx[day.value] || []).slice(0, (this.eventMappedToIdx[day.value] || []).length <= 3 ? 3 : 2) " (click)="openEvent($event, event)">
+                        <span class="each-event-position">
+                            <span class="each-event" [ngStyle]="{ 'backgroundColor': event.bg_color }">
+                                <span class="each-event-name">
+                                {{ event.event_name }}
+                                 </span>
+                                 </span>
+                        </span>
+                    </div>
+    
+                    <div class="event-container" *ngIf="(this.eventMappedToIdx[day.value] || []).length > 3" (click)="showAllEvents(this.eventMappedToIdx[day.value], $event, day)">
+                        <span class="each-event-position">
+                            <span class="each-event" [ngStyle]="{ 'backgroundColor': 'transparent', 'color': 'black' }">
+                                 +{{ (this.eventMappedToIdx[day.value] || []).length - 2 }} more 
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<p-toast></p-toast>
+</div>
+
+<!-- create and edit -->
+<p-overlayPanel #op [appendTo]="'body'" class="calendar-planner-overlay" (onHide)="closeOverlay()" [style]="{ 'boxShadow': '0 2px 10px rgba(0, 0, 0, 0.3)', 'borderRadius': '10px', 'marginTop': '0px' }">
+    <div class="overlay-panel-content">
+        <div class="overlay-panel-header">
+            <span class="overlay-panel-title">{{ formType }} Event</span>
+            <span class="overlay-panel-close" (click)="closeOverlay()"> <i class="pi pi-times"></i> </span>
+        </div>
+        <div class="overlay-panel-body">
+            <form class="overlay-panel-form" [formGroup]="eventCreationForm">
+                <div class="calendars">
+                    <div class="calendar-container">
+                      <label>From Date</label>
+                      <p-calendar formControlName="event_start_date" [style]="{width:'250px'}" (onSelect)="handleStartEndDateChange()"
+                        [showTime]="false" [inline]="true" [showIcon]="false"
+                        [todayButtonStyleClass]="'p-datepicker-today-hidden'"></p-calendar>
+                    </div>
+                    <div class="calendar-container">
+                      <label>To Date</label>
+                      <p-calendar formControlName="event_end_date" [style]="{width:'250px'}" [inline]="true" [showIcon]="false" [showTime]="false"
+                        (onSelect)="handleStartEndDateChange()" [minDate]="eventCreationForm.get('event_start_date')?.value"
+                        [todayButtonStyleClass]="'p-datepicker-today-hidden'"></p-calendar>
+                    </div>
+                  </div>
+                
+                <div class="create-event-options">
+                    <div class="dropdown-containers">
+                        <span>
+                            <p-dropdown class="dropdown-events" inputId="dropdown-dropdown" optionLabel="label" optionValue="value" placeholder="Select Event Type"
+                                [options]="eventTypes" [autoDisplayFirst]="true" formControlName="event_type" />
+                        </span>
+                        
+                        <span>
+                            <input type="text" pInputText formControlName="event_name" placeholder="Type Event Name"/>
+                        </span>
+                    </div>
+                    <div class="dropdown-containers">
+                        <div>
+                            <input type="email" pInputText formControlName="email" placeholder="Type Email"/>
+                        </div>
+                        <div class="color-box-container">
+                            <p-colorPicker formControlName="bg_color"></p-colorPicker>
+                            <label>Event Theme</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>  
+        <div class="overlay-panel-footer">
+            <p-button (onClick)="saveEvent()">Save</p-button>
+        </div>
+    </div>
+</p-overlayPanel>
+
+<!-- all events -->
+<p-overlayPanel #moreEvents [appendTo]="'body'" class="calendar-planner-overlay"
+    [style]="{ 'boxShadow': '0 2px 10px rgba(0, 0, 0, 0.3)', 'borderRadius': '10px', 'marginTop': '0px', 'padding': '5px' }">
+    <div class="overlay-panel-content-all-views">
+        <div class="overlay-panel-header">
+            <span class="overlay-panel-title">{{ selectedDate | date: defaultDateFormat }}</span>
+            <span class="overlay-panel-close" (click)="closeEventListOverlay()"> <i class="pi pi-times"></i> </span>
+        </div>
+        <div class="overlay-panel-body-event-list">
+            <div class="event-container"
+                *ngFor="let event of selectedAllEvents"
+                (click)="openEvent($event, event)">
+                <span class="each-event" style="min-width: 200px;" [ngStyle]="{ 'backgroundColor': event.bg_color, 'height': '25px' }"> {{ event.event_name }} </span>
+            </div>
+        </div>
+    </div>
+</p-overlayPanel>
+
+<!-- event view  -->
+<p-overlayPanel #event [appendTo]="'body'" class="calendar-planner-overlay" (onHide)="closeEventOverlay()" [style]="{ 'boxShadow': '0 2px 10px rgba(0, 0, 0, 0.3)', 'borderRadius': '10px', 'marginTop': '0px' }">
+    <div class="overlay-panel-content">
+        <div class="overlay-panel-header-event">
+            <span class="overlay-panel-close" (click)="openEditEvent(eventDataToDisplay!)"> <img [src]="editIcon" /> </span>
+            <span class="overlay-panel-close" (click)="deleteEvent(eventDataToDisplay!)"> <i class="pi pi-trash"></i> </span>
+            <span class="overlay-panel-close" (click)="closeEventOverlay()"> <i class="pi pi-times"></i> </span>
+        </div>
+        <div class="overlay-panel-body-event">
+            <div class="overlay-title-box">
+                <span class="color-box"  [ngStyle]="{ 'backgroundColor': eventDataToDisplay?.bg_color}"></span>
+                <div class="overlay-box-title">
+                    <span class="event-name-overlay">{{ eventDataToDisplay?.event_name }}</span>
+                    <span class="date-overlay">{{ eventDataToDisplay?.start_date | date: defaultDateFormat }} - {{ eventDataToDisplay?.end_date | date: defaultDateFormat }}</span>
+                </div>
+            </div>
+            <div class="overlay-title-box">
+                <span class="align-icon"><i class="pi pi-align-left"></i></span>
+                <span class="calendar-details"> {{ eventDataToDisplay?.event_type }} </span>
+            </div>
+            <div class="overlay-title-box">
+                <span class="align-icon"><i class="pi pi-user"></i></span>
+                <span class="calendar-details"> {{ eventDataToDisplay?.email }} </span>
+            </div>
+        </div>  
+    </div>
+</p-overlayPanel>
