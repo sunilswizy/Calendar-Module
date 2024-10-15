@@ -1,4 +1,4 @@
-# Scheduler App
+# Sunil's Calendar
 
 This project is a web-based scheduling application that enables users to view available time slots, book events, set reminders, and manage tasks through an interactive calendar interface. The app is designed to provide a seamless, user-friendly experience to simplify scheduling and boost productivity.
 
